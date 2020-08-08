@@ -1,7 +1,7 @@
 #include <MedianFilter.h>
 #include <LiquidCrystal_I2C.h>
 #include <NewPing.h>
-
+#include <stdio.h>
 
 #define TRIGGER_PIN  7  // Arduino pin tied to trigger pin on the ultrasonic sensor.
 #define ECHO_PIN     6  // Arduino pin tied to echo pin on the ultrasonic sensor.
@@ -26,12 +26,15 @@ void setup() {
 
 void loop() {
   unsigned int o,ultSon = sonar.ping();
+  String str;
 
   filter.in(ultSon);
   o = filter.out();
+
+  str = String(o/US_ROUNDTRIP_CM);
   
   lcd.clear();
   lcd.setCursor(0, 0);
-  lcd.print(o/US_ROUNDTRIP_CM);
+  lcd.print(str += "cm");
   delay(100);
 }
